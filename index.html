@@ -1,0 +1,837 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nukie Carpathio &mdash; Apocalyptic Americana</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Rajdhani:wght@500;600;700&family=Share+Tech+Mono&display=swap">
+  <style>
+    :root{
+      --bg:#08090a;
+      --bg-deep:#030304;
+      --metal:#1a1c21;
+      --metal-2:#26292f;
+      --metal-line:#35393f;
+      --bone:#d9d3c2;
+      --bone-dim:#948e7d;
+      --bio:#7cffb8;
+      --bio-dim:#3f9c6d;
+      --blood:#5c1414;
+      --blood-bright:#9c2020;
+      --rail:84px;
+    }
+    *{box-sizing:border-box;}
+    body{margin:0;background:var(--bg);color:var(--bone);font-family:'Share Tech Mono', monospace;}
+    a{color:var(--bio);}
+    a:hover{color:var(--bone);}
+    ::selection{background:var(--bio-dim);color:var(--bg-deep);}
+    .orbi{font-family:'Orbitron', sans-serif;}
+    .rajd{font-family:'Rajdhani', sans-serif;}
+    .kicker{font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:5px;text-transform:uppercase;font-size:12px;color:var(--bio);}
+    .navlink{font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:2px;text-transform:uppercase;font-size:14px;color:var(--bone-dim);padding:8px 4px;border-bottom:1px solid transparent;transition:color .2s ease, border-color .2s ease;}
+    .navlink:hover{color:var(--bio);border-bottom:1px solid var(--bio);}
+    .rail-link{writing-mode:vertical-rl;font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:3px;text-transform:uppercase;font-size:12px;color:var(--bone-dim);padding:10px 0;text-decoration:none;transition:color .2s ease;}
+    .rail-link:hover{color:var(--bio);}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:'Rajdhani',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;font-size:14px;padding:16px 30px;border-radius:2px;cursor:pointer;border:1px solid transparent;transition:transform .15s ease, box-shadow .3s ease;}
+    .btn:hover{transform:translateY(-2px);}
+    .btn-solid{background:var(--bio-dim);color:var(--bg-deep);border-color:var(--bio);animation:pulseGlow 3s ease-in-out infinite;}
+    .btn-solid:hover{background:var(--bio);}
+    .btn-outline{background:rgba(124,255,184,0.04);color:var(--bone);border-color:var(--metal-line);}
+    .btn-outline:hover{border-color:var(--bio);color:var(--bio);}
+    .btn-ghost{background:rgba(3,3,4,0.35);color:var(--bone);border-color:rgba(217,211,194,0.4);backdrop-filter:blur(2px);}
+    .btn-ghost:hover{border-color:var(--bio);color:var(--bio);}
+    @keyframes pulseGlow{
+      0%,100%{box-shadow:0 0 6px rgba(124,255,184,0.25), 0 0 0px rgba(124,255,184,0);}
+      50%{box-shadow:0 0 22px rgba(124,255,184,0.55), 0 0 40px rgba(124,255,184,0.12);}
+    }
+    @keyframes drift{
+      0%{stroke-dashoffset:0;}
+      100%{stroke-dashoffset:-800;}
+    }
+    @keyframes ping{
+      0%{transform:scale(0.6);opacity:.6;}
+      80%{transform:scale(2.1);opacity:0;}
+      100%{transform:scale(2.1);opacity:0;}
+    }
+    @keyframes flicker{
+      0%,92%,100%{opacity:1;}
+      93%{opacity:.4;}
+      95%{opacity:.9;}
+      96%{opacity:.3;}
+      97%{opacity:1;}
+    }
+    @keyframes ekg{
+      0%{stroke-dashoffset:1200;}
+      100%{stroke-dashoffset:0;}
+    }
+    @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+    @keyframes slowZoomA{0%{transform:scale(1);}100%{transform:scale(1.07);}}
+    @keyframes slowZoomB{0%{transform:scale(1.05);}100%{transform:scale(1);}}
+    @keyframes scrub{0%{left:0%;}100%{left:100%;}}
+    @keyframes cursorBlink{0%,50%{opacity:1;}51%,100%{opacity:0;}}
+    @keyframes elementGlitch{
+      0%,100%{transform:translate(0);text-shadow:none;}
+      92%{transform:translate(0);text-shadow:none;}
+      93%{transform:translate(-2px,1px);text-shadow:-2px 0 var(--blood-bright), 2px 0 var(--bio);}
+      94%{transform:translate(2px,-1px);text-shadow:2px 0 var(--blood-bright), -1px 0 var(--bio);}
+      95%{transform:translate(0);text-shadow:none;opacity:.4;}
+      96%{transform:translate(-1px,-2px);opacity:1;}
+    }
+    .glitch{animation:elementGlitch 5s linear infinite;}
+    @keyframes radarRotate{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+    .radar-sweep{position:relative;}
+    .radar-sweep::before{content:'';position:absolute;top:-150%;left:-150%;width:400%;height:400%;background:conic-gradient(from 180deg at 50% 50%, rgba(124,255,184,0.07) 0deg, transparent 70deg, transparent 360deg);animation:radarRotate 10s linear infinite;pointer-events:none;z-index:3;}
+    @keyframes fluidPump{0%{background-position:0% -220px;}100%{background-position:0% 440px;}}
+    .capillary-pump{position:absolute;top:0;bottom:0;left:0;width:9px;z-index:3;background:linear-gradient(180deg, transparent, var(--bio), transparent);background-size:100% 220px;animation:fluidPump 2.5s linear infinite;mix-blend-mode:screen;pointer-events:none;}
+    .marquee-track{display:flex;width:max-content;animation:marquee 30s linear infinite;}
+    .marquee-track-fast{display:flex;width:max-content;animation:marquee 18s linear infinite;}
+    .node-ring{position:absolute;inset:0;border-radius:50%;border:1px solid var(--bio);animation:ping 2.6s cubic-bezier(0,0,0.2,1) infinite;}
+    .flicker{animation:flicker 6s linear infinite;}
+    input::placeholder{color:var(--bone-dim);opacity:.7;}
+    .field{font-family:'Share Tech Mono',monospace;font-size:14px;background:var(--bg-deep);border:1px solid var(--metal-line);color:var(--bone);padding:14px 16px;border-radius:2px;}
+    .field:focus{outline:1px solid var(--bio);}
+    .track-row:hover{background:rgba(124,255,184,0.03);}
+    .vein-panel{clip-path:polygon(0 0,100% 0,100% calc(100% - 18px),97% 100%,3% 100%,0 calc(100% - 18px));}
+    .living-img{animation:slowZoomA 24s ease-in-out infinite alternate;display:block;}
+    .living-img-alt{animation:slowZoomB 28s ease-in-out infinite alternate;display:block;}
+    .cell-frame{position:relative;padding:5px;border-radius:2px;background-size:cover;background-position:center;}
+    .membrane{clip-path: polygon(3% 0%, 96% 1.5%, 100% 7%, 98.5% 90%, 95% 98%, 49% 96%, 2.5% 100%, 0% 88%, 1.5% 11%);}
+    .hose-edge{position:absolute;top:0;bottom:0;left:0;width:9px;z-index:2;background-image:repeating-linear-gradient(180deg, var(--bio-dim) 0px, var(--bio-dim) 2px, var(--metal-line) 2px, var(--metal-line) 4px, var(--bg-deep) 4px, var(--bg-deep) 6px);background-size:6px 100%;opacity:.65;box-shadow:1px 0 6px rgba(124,255,184,0.15);}
+    .scanlines{position:relative;}
+    .scanlines::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:6;background-image:repeating-linear-gradient(180deg, rgba(0,0,0,0.32) 0px, rgba(0,0,0,0.32) 1px, transparent 1px, transparent 3px);mix-blend-mode:multiply;opacity:.55;}
+    .dossier-row{display:flex;align-items:baseline;justify-content:space-between;gap:20px;padding:12px 0;border-bottom:1px solid var(--metal-line);}
+    .dossier-label{font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:2px;text-transform:uppercase;font-size:11px;color:var(--bone-dim);}
+    .dossier-value{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:14px;color:var(--bio);letter-spacing:1px;text-transform:uppercase;text-align:right;}
+    .manifest{position:relative;}
+    .manifest::before{content:'';position:absolute;left:55px;top:0;bottom:0;width:3px;background:repeating-linear-gradient(180deg, var(--bio-dim) 0 9px, var(--bg-deep) 9px 12px, var(--metal-line) 12px 15px, transparent 15px 21px);opacity:.65;}
+    .cursor{display:inline-block;animation:cursorBlink 1s steps(1) infinite;color:var(--bio);}
+    .threat-marquee{width:100%;overflow:hidden;background:var(--blood);border-bottom:1px solid var(--blood-bright);padding:7px 0;}
+    .marquee-item-threat{font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;color:#fff;padding:0 40px;text-transform:uppercase;font-weight:bold;}
+    .navtab{font-family:'Rajdhani',sans-serif;font-weight:600;letter-spacing:2px;text-transform:uppercase;font-size:12px;color:var(--bone-dim);padding:8px 16px;border:1px solid var(--metal-line);background:var(--bg-deep);cursor:pointer;}
+    .navtab.active{color:var(--bio);border-color:var(--bio);background:rgba(124,255,184,0.06);}
+    .meter-track{width:100%;height:4px;background:rgba(0,0,0,0.6);border:1px solid var(--metal-line);}
+    .meter-fill{height:100%;background:var(--bio);}
+    .rail-organic{clip-path: polygon(0% 0%, 100% 0.00%, 96.5% 4.17%, 100% 8.33%, 96.5% 12.50%, 100% 16.67%, 96.5% 20.83%, 100% 25.00%, 96.5% 29.17%, 100% 33.33%, 96.5% 37.50%, 100% 41.67%, 96.5% 45.83%, 100% 50.00%, 96.5% 54.17%, 100% 58.33%, 96.5% 62.50%, 100% 66.67%, 96.5% 70.83%, 100% 75.00%, 96.5% 79.17%, 100% 83.33%, 96.5% 87.50%, 100% 91.67%, 96.5% 95.83%, 100% 100.00%, 0% 100%);}
+    .rivet{position:absolute;width:6px;height:6px;border-radius:50%;background:radial-gradient(circle at 35% 35%, var(--bone), var(--bone-dim) 55%, var(--metal-line) 100%);box-shadow:0 0 4px rgba(0,0,0,0.85), inset 0 0 2px rgba(255,255,255,0.2);z-index:4;pointer-events:none;}
+    .iris-btn{background:repeating-conic-gradient(var(--bg-deep) 0deg 12deg, var(--metal-line) 12deg 24deg) !important;}
+    @keyframes breachFlicker{
+      0%,100%{opacity:1;}
+      4%{opacity:.15;} 6%{opacity:1;} 7%{opacity:.05;} 9%{opacity:.9;}
+      40%{opacity:1;} 41%{opacity:.3;} 43%{opacity:1;}
+      70%{opacity:1;} 71%{opacity:.2;} 73%{opacity:.8;} 74%{opacity:1;}
+    }
+    .breach-seam{position:absolute;top:0;left:0;right:0;height:3px;pointer-events:none;z-index:2;background:linear-gradient(90deg, transparent, var(--bio) 15%, var(--bio) 85%, transparent);box-shadow:0 0 12px var(--bio), 0 0 26px rgba(124,255,184,0.5);animation:breachFlicker 4.6s steps(1) infinite;}
+    .marquee-glitch{color:var(--blood-bright) !important;text-shadow:0 0 6px var(--blood-bright);}
+    .threat-critical{animation:flicker 2.6s linear infinite;text-shadow:0 0 10px rgba(156,32,32,0.65);}
+    .redacted{background:#0a0a0a;color:transparent;padding:0 3px;border-radius:1px;cursor:help;transition:background .35s ease, color .35s ease, text-shadow .35s ease;user-select:none;}
+    .redacted:hover, .redacted:focus{background:transparent;color:var(--bio);text-shadow:0 0 8px rgba(124,255,184,0.4);user-select:text;outline:none;}
+    .audio-toggle{position:fixed;bottom:24px;right:24px;z-index:55;width:52px;height:52px;padding:0;border-radius:50%;}
+    .tab-panel{display:none;}
+    .tab-panel.active{display:block;}
+    .icon-swap{display:none;}
+    .icon-swap.active{display:inline-flex;}
+
+    @media (max-width: 900px){
+      :root{ --rail:64px; }
+      h1.orbi{ font-size:48px !important; }
+      #top h1.orbi{ text-shadow:0 0 20px rgba(124,255,184,0.2), 0 4px 18px rgba(0,0,0,0.8); }
+      .rail-link{ font-size:10px; letter-spacing:2px; }
+      .marquee-item-threat{ font-size:11px; padding:0 24px; }
+    }
+    @media (max-width: 640px){
+      :root{ --rail:52px; }
+      #top > div[style*="padding:150px"]{ padding:120px 24px 40px calc(var(--rail) + 20px) !important; }
+      h1.orbi{ font-size:36px !important; }
+      h2.orbi{ font-size:26px !important; }
+      #music, #about, #tour, #merch, #contact,
+      div[style*="padding:100px 56px 100px"]{ padding-left:calc(var(--rail) + 20px) !important; padding-right:20px !important; padding-top:60px !important; padding-bottom:60px !important; }
+      #about{ gap:32px; }
+      div[style*="height:460px"]{ height:280px !important; }
+      .rail-link{ font-size:9px; letter-spacing:1px; }
+      .rail-organic .scanlines > div{ gap:14px !important; }
+      div[style*="padding:70px 56px 40px"]{ padding-left:calc(var(--rail) + 20px) !important; padding-right:20px !important; }
+      div[style*="gap:48px;flex-wrap:wrap;padding:40px 40px 40px 52px"]{ padding:28px 20px 28px 32px !important; gap:24px !important; }
+      div[style*="flex:0 0 300px"]{ flex:1 1 100% !important; max-width:220px; margin:0 auto; }
+      div[style*="flex:1 1 320px;min-width:280px"]{ flex:1 1 100% !important; min-width:0 !important; }
+      div[style*="flex:0 0 42%;min-width:280px"]{ flex:1 1 100% !important; min-width:0 !important; max-width:320px; margin:0 auto; }
+    }
+  </style>
+</head>
+<body>
+<!--
+  CONTAINMENT INCIDENT REPORT — FILE NK-77
+  SUBJECT: N. CARPATHIO ("NUKIE")
+  STATUS: [REDACTED]
+  NOTE: If you are reading this, the perimeter has already failed once before.
+  Do not attempt to patch the source. Let it breathe.
+-->
+
+<div style="width:100%;min-height:100vh;background:var(--bg);position:relative;overflow:hidden;">
+
+  <!-- ORGANISM: the whole page sits on this living tissue, visible through every translucent section -->
+  <div style="position:fixed;inset:0;z-index:-2;overflow:hidden;">
+    <img src="images/wall-relief.png" alt="" aria-hidden="true" style="position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;filter:grayscale(0.55) brightness(0.32) contrast(1.15);">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(8,9,10,0.72) 0%, rgba(8,9,10,0.88) 45%, rgba(3,3,4,0.95) 100%);"></div>
+  </div>
+
+  <!-- Static viewport vignette -->
+  <div style="position:fixed;inset:0;z-index:56;pointer-events:none;box-shadow:inset 0 0 250px 70px rgba(0,0,0,0.9);"></div>
+
+  <svg style="position:absolute;width:0;height:0;">
+    <filter id="grainFilter">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="noise"></feTurbulence>
+      <feColorMatrix in="noise" type="matrix" values="0 0 0 0 0.48  0 0 0 0 1  0 0 0 0 0.7  0 0 0 0.035 0"></feColorMatrix>
+    </filter>
+  </svg>
+
+  <svg style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:-1;opacity:.22;" preserveAspectRatio="none" viewBox="0 0 1440 4400" aria-hidden="true">
+    <path d="M0 120 C 260 220, 180 380, 420 420 S 700 520, 640 700 S 900 860, 980 1040" fill="none" stroke="var(--bio-dim)" stroke-width="1.4" stroke-dasharray="6 14" style="animation:drift 14s linear infinite;"></path>
+    <path d="M1440 300 C 1200 420, 1280 560, 1020 640 S 780 760, 860 940 S 560 1120, 500 1360" fill="none" stroke="var(--bio-dim)" stroke-width="1.2" stroke-dasharray="4 10" style="animation:drift 18s linear infinite reverse;"></path>
+    <path d="M100 1900 C 340 2000, 260 2180, 520 2260 S 760 2400, 700 2620" fill="none" stroke="var(--metal-line)" stroke-width="1" stroke-dasharray="3 9" style="animation:drift 22s linear infinite;"></path>
+    <path d="M1340 2200 C 1120 2300, 1200 2460, 960 2560 S 700 2700, 780 2920" fill="none" stroke="var(--bio-dim)" stroke-width="1.2" stroke-dasharray="5 12" style="animation:drift 16s linear infinite reverse;"></path>
+    <path d="M0 3200 C 260 3300, 180 3480, 460 3540 S 760 3660, 700 3860" fill="none" stroke="var(--metal-line)" stroke-width="1" stroke-dasharray="3 9" style="animation:drift 20s linear infinite;"></path>
+  </svg>
+
+  <div style="position:fixed;inset:0;pointer-events:none;z-index:60;filter:url(#grainFilter);mix-blend-mode:screen;"></div>
+  <div style="position:fixed;inset:-10%;pointer-events:none;z-index:2;background:radial-gradient(ellipse 70% 55% at 50% 40%, rgba(124,255,184,0.06), rgba(0,0,0,0) 70%);"></div>
+
+  <!-- RAIL NAV -->
+  <div class="rail-organic" style="position:fixed;top:0;left:0;bottom:0;width:var(--rail);z-index:50;overflow:hidden;box-shadow:2px 0 20px rgba(0,0,0,0.5);">
+    <img src="images/rail-column.png" alt="" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;filter:grayscale(0.35) brightness(1.4) contrast(1.15);">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(3,3,4,0.5) 0%, rgba(3,3,4,0.68) 100%);"></div>
+    <div class="scanlines" style="position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:24px 0;">
+      <div class="hose-edge" style="left:auto;right:0;"></div>
+      <a href="#top" aria-label="Nukie Carpathio home" style="position:relative;width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;">
+        <span class="node-ring"></span>
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
+          <circle cx="10" cy="10" r="3.4" fill="#7cffb8"></circle>
+          <circle cx="10" cy="10" r="8.4" fill="none" stroke="#7cffb8" stroke-width="1"></circle>
+        </svg>
+      </a>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:22px;">
+        <a class="rail-link" href="#music">Music</a>
+        <a class="rail-link" href="#about">About</a>
+        <a class="rail-link" href="#tour">Tour</a>
+        <a class="rail-link" href="#merch">Merch</a>
+        <a class="rail-link" href="#contact">Contact</a>
+      </div>
+      <a href="#music" aria-label="Listen now" class="btn btn-solid iris-btn" style="width:44px;height:44px;padding:0;border-radius:50%;font-size:14px;color:var(--bio);">&#9658;</a>
+    </div>
+  </div>
+
+  <!-- THREAT MARQUEE -->
+  <div class="threat-marquee" style="position:fixed;top:0;left:var(--rail);right:0;z-index:51;">
+    <div class="marquee-track-fast">
+      <span class="marquee-item-threat">&#9888; VITALS UNSTABLE // SIGNAL DETECTED &nbsp;&#9670;&nbsp; CONTAINMENT PERIMETER COMPROMISED &nbsp;&#9670;&nbsp; DO NOT APPROACH THE STAGE &nbsp;&#9670;&nbsp; VITALS UNSTABLE // SIGNAL DETECTED &nbsp;&#9670;&nbsp; CONTAINMENT PERIMETER COMPROMISED &nbsp;&#9670;&nbsp; DO NOT APPROACH THE STAGE &nbsp;&#9670;&nbsp;</span>
+      <span class="marquee-item-threat">&#9888; VITALS UNSTABLE // SIGNAL DETECTED &nbsp;&#9670;&nbsp; CONTAINMENT PERIMETER COMPROMISED &nbsp;&#9670;&nbsp; DO NOT APPROACH THE STAGE &nbsp;&#9670;&nbsp; VITALS UNSTABLE // SIGNAL DETECTED &nbsp;&#9670;&nbsp; CONTAINMENT PERIMETER COMPROMISED &nbsp;&#9670;&nbsp; DO NOT APPROACH THE STAGE &nbsp;&#9670;&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- Ambient-audio toggle. Never autoplays. -->
+  <button id="audioToggleBtn" class="btn btn-ghost audio-toggle" aria-pressed="false" aria-label="Play ambient signal" title="Play ambient signal">
+    <span class="icon-swap" id="audioIconOn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg></span>
+    <span class="icon-swap active" id="audioIconOff"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5Z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></span>
+  </button>
+
+  <!-- HERO -->
+  <div id="top" class="scanlines radar-sweep" style="position:relative;min-height:100vh;display:flex;overflow:hidden;">
+    <img class="living-img" src="images/capitol-throne.png" alt="Nukie Carpathio enthroned among the ruined marble columns of the U.S. Capitol, dressed in a tattered suit and bowler hat, a torn American flag hanging behind him and bodies scattered at his feet under a smoke-filled sky" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:grayscale(0.25) contrast(1.15) saturate(0.9);">
+    <div style="position:absolute;inset:0;background:linear-gradient(90deg, rgba(3,3,4,0.15) 0%, rgba(3,3,4,0.55) 46%, rgba(3,3,4,0.97) 72%, rgba(3,3,4,0.99) 100%);"></div>
+    <div id="heroGlow" style="position:absolute;inset:0;background:radial-gradient(ellipse 700px 500px at 20% 85%, rgba(124,255,184,0.10), rgba(124,255,184,0) 60%);"></div>
+    <div style="position:relative;z-index:2;margin-left:auto;width:min(600px, 94%);display:flex;flex-direction:column;justify-content:center;padding:150px 64px 64px calc(var(--rail) + 48px);min-height:100vh;">
+      <div class="kicker flicker" style="margin-bottom:18px;">Specimen Designation: NK&ndash;77 &middot; Vitals Rising</div>
+      <h1 class="orbi glitch" style="margin:0 0 22px 0;font-size:72px;line-height:1.0;letter-spacing:2px;color:var(--bone);text-shadow:0 0 30px rgba(124,255,184,0.25), 0 4px 24px rgba(0,0,0,0.8);">NUKIE<br>CARPATHIO</h1>
+      <p class="rajd" style="margin:0 0 20px 0;font-size:18px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--bone-dim);text-shadow:0 2px 12px rgba(0,0,0,0.9);">Apocalyptic Americana &mdash; a signal that will not stay buried</p>
+      <svg width="360" height="46" viewBox="0 0 360 46" style="margin-bottom:28px;opacity:.9;" aria-hidden="true">
+        <polyline points="0,23 40,23 55,6 70,40 85,23 130,23 145,10 160,36 175,23 360,23" fill="none" stroke="var(--bio)" stroke-width="1.6" stroke-dasharray="1200" style="animation:ekg 3.4s linear infinite;"></polyline>
+      </svg>
+      <div style="display:flex;gap:18px;flex-wrap:wrap;">
+        <a href="#music" class="btn btn-solid">&#9658; Listen Now</a>
+        <a href="#tour" class="btn btn-ghost">Tour Dates</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- MARQUEE -->
+  <div style="background:var(--metal);padding:12px 0 12px var(--rail);overflow:hidden;white-space:nowrap;border-top:1px solid var(--metal-line);border-bottom:1px solid var(--metal-line);">
+    <div class="marquee-track">
+      <span class="rajd" style="font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--bio);padding-right:40px;">Signal Detected: &ldquo;Duck &amp; Cover&rdquo; Now Streaming &nbsp;&#9670;&nbsp; Host Bodies Multiplying &nbsp;&#9670;&nbsp; Tour Coordinates Confirmed &nbsp;&#9670;&nbsp; Signal Detected: &ldquo;Duck &amp; Cover&rdquo; Now Streaming &nbsp;&#9670;&nbsp; Host Bodies Multiplying &nbsp;&#9670;&nbsp; Tour Coordinates Confirmed &nbsp;&#9670;&nbsp;</span>
+      <span class="rajd" style="font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--bio);padding-right:40px;">Signal Detected: &ldquo;Duck &amp; Cover&rdquo; Now Streaming &nbsp;&#9670;&nbsp; Host Bodies Multiplying &nbsp;&#9670;&nbsp; Tour Coordinates Confirmed &nbsp;&#9670;&nbsp; Signal Detected: &ldquo;Duck &amp; Cover&rdquo; Now Streaming &nbsp;&#9670;&nbsp; Host Bodies Multiplying &nbsp;&#9670;&nbsp; Tour Coordinates Confirmed &nbsp;&#9670;&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- MUSIC -->
+  <div id="music" style="padding:110px 56px 110px calc(var(--rail) + 56px);background:rgba(3,3,4,0.93);">
+    <div class="kicker" style="margin-bottom:16px;">Now Transmitting</div>
+    <h2 class="orbi" style="margin:0 0 40px 0;font-size:42px;letter-spacing:1px;color:var(--bone);">DUCK &amp; COVER</h2>
+    <div class="membrane" style="position:relative;background-image:linear-gradient(rgba(26,28,33,0.55),rgba(26,28,33,0.55)), url('images/speaker-altar.png');background-size:cover;background-position:center;border:1px solid var(--metal-line);box-shadow:0 24px 60px rgba(0,0,0,0.6);">
+      <div style="position:relative;background:var(--metal);display:flex;gap:48px;flex-wrap:wrap;padding:40px 40px 40px 52px;">
+        <div class="hose-edge"></div>
+        <div class="capillary-pump"></div>
+        <div style="flex:0 0 300px;">
+          <div class="vein-panel scanlines" style="position:relative;width:100%;aspect-ratio:1/1;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,0.6);border:1px solid var(--metal-line);background:var(--bg-deep);">
+            <img class="living-img" src="images/speaker-altar.png" alt="An original biomechanical speaker altar: a chrome speaker cone fused into a spine, flanked by two skulls, wired with dripping cables and lit by green accent lights" style="width:100%;height:100%;object-fit:cover;display:block;">
+            <div style="position:absolute;inset:0;display:flex;align-items:flex-end;padding:20px;">
+              <span class="rajd" style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--bone);background:rgba(3,3,4,0.6);padding:6px 12px;border:1px solid var(--metal-line);">LP &middot; 11 Tracks &middot; 2026</span>
+            </div>
+            <span class="rivet" style="top:10px;left:10px;"></span>
+            <span class="rivet" style="top:10px;right:10px;"></span>
+            <span class="rivet" style="bottom:10px;left:10px;"></span>
+            <span class="rivet" style="bottom:10px;right:10px;"></span>
+          </div>
+        </div>
+        <div style="flex:1 1 320px;min-width:280px;">
+          <div style="display:flex;gap:8px;margin-bottom:18px;">
+            <button class="navtab active" data-tab="tracklist" onclick="showTab('tracklist')">Tracklist</button>
+            <button class="navtab" data-tab="lyrics" onclick="showTab('lyrics')">Lyrics</button>
+            <button class="navtab" data-tab="credits" onclick="showTab('credits')">Credits</button>
+          </div>
+          <div class="tab-panel active" id="panel-tracklist">
+            <div style="max-height:340px;overflow-y:auto;" id="trackList"></div>
+          </div>
+          <div class="tab-panel" id="panel-lyrics">
+            <div style="padding:18px 4px;max-height:340px;overflow-y:auto;">
+              <div class="rajd" style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--bone-dim);margin-bottom:14px;">&ldquo;Duck &amp; Cover&rdquo; &mdash; Lyrics (Verse 1 &amp; Chorus)</div>
+              <p style="font-size:15px;line-height:2;color:var(--bone-dim);margin:0;">They told us duck and cover<br>said the desk would see us through<br>I built a house of homework<br>and it didn&rsquo;t, and neither did you<br><br>So sound the siren, ring the bell<br>practice smiling, practice well<br>we&rsquo;re still here and still transmitting<br>something&rsquo;s wrong but we&rsquo;re still fitting</p>
+            </div>
+          </div>
+          <div class="tab-panel" id="panel-credits">
+            <div style="padding:18px 4px;">
+              <div class="dossier-row"><span class="dossier-label">Written By</span><span class="dossier-value">N. Carpathio</span></div>
+              <div class="dossier-row"><span class="dossier-label">Performed By</span><span class="dossier-value">The Warheads</span></div>
+              <div class="dossier-row"><span class="dossier-label">Produced &amp; Mixed By</span><span class="dossier-value">Sector 9 Audio</span></div>
+              <div class="dossier-row" style="border-bottom:none;"><span class="dossier-label">Label</span><span class="dossier-value">Fallout &amp; Friends</span></div>
+            </div>
+          </div>
+          <div class="rajd" style="margin-top:22px;margin-bottom:10px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--bone-dim);">Vitals</div>
+          <div style="position:relative;height:34px;border-radius:2px;overflow:hidden;border:1px solid var(--metal-line);background-image:linear-gradient(rgba(3,3,4,0.84),rgba(3,3,4,0.84)), url('images/wall-relief.png');background-size:cover;background-position:center;">
+            <div id="scrubPlaying" style="display:none;position:absolute;top:0;bottom:0;width:3px;background:var(--bio);box-shadow:0 0 14px var(--bio), 0 0 28px rgba(124,255,184,0.5);animation:scrub 3.4s linear infinite;"></div>
+            <div id="scrubIdle" style="position:absolute;top:50%;left:8%;transform:translateY(-50%);width:3px;height:14px;background:var(--bone-dim);opacity:.5;"></div>
+          </div>
+          <div style="margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:6px;color:var(--bone-dim);letter-spacing:1px;"><span>CROWD SIGNAL</span><span style="color:var(--bio);">78%</span></div>
+              <div class="meter-track"><div class="meter-fill" style="width:78%;"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:10px;margin-bottom:6px;color:var(--bone-dim);letter-spacing:1px;"><span>DECAY RATE</span><span style="color:var(--bio);">41%</span></div>
+              <div class="meter-track"><div class="meter-fill" style="width:41%;"></div></div>
+            </div>
+          </div>
+          <div style="margin-top:26px;">
+            <div class="rajd" style="margin-bottom:10px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--bone-dim);">Stream Everywhere</div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <a href="#" class="btn btn-outline" style="padding:10px 18px;font-size:11px;">Spotify</a>
+              <a href="#" class="btn btn-outline" style="padding:10px 18px;font-size:11px;">Apple Music</a>
+              <a href="#" class="btn btn-outline" style="padding:10px 18px;font-size:11px;">YouTube Music</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERSTITIAL DIPTYCH -->
+  <div style="display:flex;flex-wrap:wrap;border-top:1px solid var(--metal-line);border-bottom:1px solid var(--metal-line);">
+    <div class="scanlines" style="flex:1 1 420px;position:relative;height:460px;overflow:hidden;background:var(--bg-deep);border-right:1px solid var(--metal-line);">
+      <img class="living-img-alt" src="images/wall-relief.png" alt="An original biomechanical wall relief: a fused skeletal ribcage and skull embedded in a gothic wall of chrome pipes, cabling, and smaller skulls, lit by a faint green glow" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;">
+      <div style="position:absolute;inset:0;background:linear-gradient(0deg, rgba(3,3,4,0.92) 0%, rgba(3,3,4,0.05) 40%, rgba(3,3,4,0.3) 100%);pointer-events:none;"></div>
+      <div style="position:relative;z-index:3;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:44px 30px 0 30px;text-align:center;">
+        <div class="kicker" style="margin-bottom:12px;">Assembly Line</div>
+        <h2 class="orbi" style="margin:0;font-size:26px;letter-spacing:1px;color:var(--bone);text-shadow:0 4px 20px rgba(0,0,0,0.8);">Built From What Was Left Behind</h2>
+      </div>
+    </div>
+    <div class="scanlines" style="flex:1 1 420px;position:relative;height:460px;overflow:hidden;">
+      <img class="living-img-alt" src="images/clown-monument.png" alt="A Mount Rushmore-style monument carved into a grinning, zombified clown face with painted stars over the eyes, a mushroom cloud rising in the distance over a burning forest" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 35%;filter:contrast(1.1) saturate(0.9);">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(3,3,4,0.8) 0%, rgba(3,3,4,0.1) 40%, rgba(3,3,4,0.15) 65%, rgba(3,3,4,0.85) 100%);"></div>
+      <div style="position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 30px;">
+        <div class="kicker" style="margin-bottom:12px;">The Nation Remembers</div>
+        <h2 class="orbi" style="margin:0;font-size:24px;letter-spacing:1px;color:var(--bone);max-width:420px;text-shadow:0 4px 20px rgba(0,0,0,0.8);">They Carved Him Into The Mountain So No One Could Vote Him Out</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT / LIVE -->
+  <div id="about" style="padding:110px 56px 110px calc(var(--rail) + 56px);background:rgba(8,9,10,0.91);display:flex;gap:60px;align-items:flex-start;flex-wrap:wrap;border-top:1px solid var(--metal-line);box-shadow:0 -18px 30px -20px rgba(0,0,0,0.7);">
+    <div style="flex:0 0 42%;min-width:280px;position:relative;">
+      <div class="vein-panel scanlines" style="position:relative;overflow:hidden;border:1px solid var(--metal-line);box-shadow:0 30px 60px rgba(0,0,0,0.6);">
+        <img class="living-img" src="images/live-performance.png" alt="Nukie Carpathio performing live at dusk, reaching toward a packed crowd with arms raised, a ruined city skyline burning on the horizon behind the stage" style="width:100%;height:100%;object-fit:cover;filter:contrast(1.1) saturate(0.85);display:block;">
+        <div style="position:absolute;inset:0;background:linear-gradient(0deg, rgba(3,3,4,0.55), rgba(3,3,4,0) 45%);"></div>
+        <div style="position:absolute;left:24px;bottom:20px;">
+          <span class="rajd" style="font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--bio);background:rgba(3,3,4,0.6);padding:6px 12px;border:1px solid var(--metal-line);">Live &middot; Somewhere Past the Fence Line</span>
+        </div>
+        <span class="rivet" style="top:10px;left:10px;"></span>
+        <span class="rivet" style="top:10px;right:10px;"></span>
+        <span class="rivet" style="bottom:10px;left:10px;"></span>
+        <span class="rivet" style="bottom:10px;right:10px;"></span>
+      </div>
+    </div>
+    <div style="flex:1 1 380px;min-width:0;">
+      <div class="kicker" style="margin-bottom:16px;">Origin File</div>
+      <h2 class="orbi" style="margin:0 0 26px 0;font-size:36px;letter-spacing:1px;color:var(--bone);">Something Kept Living</h2>
+      <div style="margin-bottom:28px;">
+        <div class="dossier-row">
+          <span class="dossier-label">Origin</span>
+          <span class="dossier-value">Collapsed Shelter, Sector 9</span>
+        </div>
+        <div class="dossier-row">
+          <span class="dossier-label">Status</span>
+          <span class="dossier-value">Ambulatory / Performing</span>
+        </div>
+        <div class="dossier-row">
+          <span class="dossier-label">Backing Band</span>
+          <span class="dossier-value">The Warheads</span>
+        </div>
+        <div class="dossier-row" style="border-bottom:none;">
+          <span class="dossier-label">Threat Level</span>
+          <span id="threatLevelValue" class="dossier-value" style="color:var(--blood-bright);">Elevated &middot; Rising</span>
+        </div>
+      </div>
+      <p style="font-size:16px;line-height:1.9;color:var(--bone-dim);margin:0 0 20px 0;">Nukie Carpathio didn&rsquo;t survive the fallout so much as refuse to stop. Pulled from a collapsed shelter with a busted guitar fused to his ribs, he came back <span class="redacted" tabindex="0" title="Reveal classified detail">wired wrong</span> &mdash; equal parts campaign clown, cabaret ghost, and something the containment reports never fully explain.</p>
+      <p style="font-size:16px;line-height:1.9;color:var(--bone-dim);margin:0;">Backed by The Warheads, the live show reads like a civil defense drill that <span class="redacted" tabindex="0" title="Reveal classified detail">grew a heartbeat</span> &mdash; sirens, static, wet metal, and three-part harmony that keeps finding a pulse where there shouldn&rsquo;t be one.</p>
+    </div>
+  </div>
+
+  <!-- TOUR -->
+  <div id="tour" style="position:relative;padding:110px 56px 110px calc(var(--rail) + 56px);background:rgba(26,28,33,0.90);">
+    <div class="breach-seam" aria-hidden="true"></div>
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:50px;flex-wrap:wrap;gap:20px;">
+      <div>
+        <div class="kicker" style="margin-bottom:16px;">Coordinates Confirmed</div>
+        <h2 class="orbi" style="margin:0;font-size:38px;letter-spacing:1px;color:var(--bone);">The Reactivation Tour</h2>
+      </div>
+      <a href="#" class="btn btn-outline">All Dates</a>
+    </div>
+    <div class="manifest" id="tourList"></div>
+  </div>
+
+  <!-- PRESS -->
+  <div style="padding:100px 56px 100px calc(var(--rail) + 56px);background:rgba(3,3,4,0.93);border-top:1px solid var(--metal-line);box-shadow:0 -18px 30px -20px rgba(0,0,0,0.7);">
+    <div class="kicker" style="margin-bottom:16px;text-align:center;">Intercepted Transmissions</div>
+    <h2 class="orbi" style="margin:0 0 50px 0;font-size:34px;letter-spacing:1px;color:var(--bone);text-align:center;">What&rsquo;s Being Said</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px,1fr));gap:28px;">
+      <div class="membrane" style="position:relative;background-image:linear-gradient(rgba(26,28,33,0.5),rgba(26,28,33,0.5)), url('images/wall-relief.png');background-size:cover;background-position:center;border:1px solid var(--metal-line);box-shadow:0 16px 34px rgba(0,0,0,0.5);">
+        <div class="vein-panel" style="position:relative;background:var(--metal);padding:32px 32px 32px 46px;">
+          <div class="hose-edge"></div>
+          <div class="capillary-pump"></div>
+          <div style="font-size:30px;color:#7cffb8;line-height:1;margin-bottom:12px;">&ldquo;</div>
+          <p style="font-size:15px;line-height:1.7;color:var(--bone-dim);margin:0 0 20px 0;">A duet between a wanted poster and something that shouldn&rsquo;t breathe. Deeply unwell. Couldn&rsquo;t stop listening.</p>
+          <div class="rajd" style="font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--bone);">Wasteland Weekly</div>
+        </div>
+      </div>
+      <div class="membrane" style="position:relative;background-image:linear-gradient(rgba(26,28,33,0.5),rgba(26,28,33,0.5)), url('images/clown-monument.png');background-size:cover;background-position:center;border:1px solid var(--metal-line);box-shadow:0 16px 34px rgba(0,0,0,0.5);margin-top:-24px;">
+        <div class="vein-panel" style="position:relative;background:var(--metal);padding:32px 32px 32px 46px;">
+          <div class="hose-edge"></div>
+          <div class="capillary-pump" style="animation-delay:.8s;"></div>
+          <div style="font-size:30px;color:#7cffb8;line-height:1;margin-bottom:12px;">&ldquo;</div>
+          <p style="font-size:15px;line-height:1.7;color:var(--bone-dim);margin:0 0 20px 0;">Somewhere between a containment breach and a seance. The bunker never sounded this alive.</p>
+          <div class="rajd" style="font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--bone);">Static Age Mag</div>
+        </div>
+      </div>
+      <div class="membrane" style="position:relative;background-image:linear-gradient(rgba(26,28,33,0.5),rgba(26,28,33,0.5)), url('images/gothic-archway.png');background-size:cover;background-position:center;border:1px solid var(--metal-line);box-shadow:0 16px 34px rgba(0,0,0,0.5);">
+        <div class="vein-panel" style="position:relative;background:var(--metal);padding:32px 32px 32px 46px;">
+          <div class="hose-edge"></div>
+          <div class="capillary-pump" style="animation-delay:1.6s;"></div>
+          <div style="font-size:30px;color:#7cffb8;line-height:1;margin-bottom:12px;">&ldquo;</div>
+          <p style="font-size:15px;line-height:1.7;color:var(--bone-dim);margin:0 0 20px 0;">Vote for oblivion? At this point, sure. The thing has a pulse and a chorus. Neither should exist.</p>
+          <div class="rajd" style="font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--bone);">The Sunday Sirens</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MERCH -->
+  <div id="merch" style="padding:110px 56px 110px calc(var(--rail) + 56px);background:rgba(8,9,10,0.91);">
+    <div class="kicker" style="margin-bottom:16px;">Specimen Store</div>
+    <h2 class="orbi" style="margin:0 0 50px 0;font-size:38px;letter-spacing:1px;color:var(--bone);">Merch</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px,1fr));gap:30px;">
+      <div class="membrane" style="position:relative;background-image:linear-gradient(rgba(26,28,33,0.5),rgba(26,28,33,0.5)), url('images/capitol-throne.png');background-size:cover;background-position:center;border:1px solid var(--metal-line);box-shadow:0 16px 34px rgba(0,0,0,0.5);">
+        <div class="vein-panel" style="position:relative;background:var(--metal);overflow:hidden;">
+          <div class="hose-edge"></div>
+          <div class="capillary-pump"></div>
+          <div style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:var(--bg-deep);padding:36px 36px 36px 46px;">
+            <img src="images/campaign-pin-badge.png" alt="Campaign pin featuring the Nukie Carpathio badge artwork" style="width:70%;border-radius:50%;filter:grayscale(0.4) hue-rotate(70deg) saturate(1.1);box-shadow:0 0 30px rgba(124,255,184,0.15), 0 16px 30px rgba(0,0,0,0.6);">
+          </div>
+          <div style="padding:22px 22px 22px 46px;">
+            <div style="font-size:16px;color:var(--bone);margin-bottom:6px;">Containment Pin</div>
+            <div class="rajd" style="font-size:14px;font-weight:600;color:#7cffb8;">$12</div>
+          </div>
+        </div>
+      </div>
+      <div class="membrane" style="position:relative;background-image:linear-gradient(rgba(26,28,33,0.5),rgba(26,28,33,0.5)), url('images/live-performance.png');background-size:cover;background-position:center;border:1px solid var(--metal-line);box-shadow:0 16px 34px rgba(0,0,0,0.5);">
+        <div class="vein-panel" style="position:relative;background:var(--metal);overflow:hidden;">
+          <div class="hose-edge"></div>
+          <div class="capillary-pump" style="animation-delay:.8s;"></div>
+          <div style="aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:var(--bg-deep);padding-left:16px;">
+            <svg width="130" height="130" viewBox="0 0 100 100" aria-hidden="true">
+              <circle cx="50" cy="50" r="46" fill="none" stroke="var(--bone-dim)" stroke-width="1"></circle>
+              <circle cx="50" cy="50" r="20" fill="none" stroke="#7cffb8" stroke-width="1.5"></circle>
+              <circle cx="50" cy="50" r="3" fill="var(--bone-dim)"></circle>
+            </svg>
+          </div>
+          <div style="padding:22px 22px 22px 46px;">
+            <div style="font-size:16px;color:var(--bone);margin-bottom:6px;">&ldquo;Duck &amp; Cover&rdquo; Vinyl LP</div>
+            <div class="rajd" style="font-size:14px;font-weight:600;color:#7cffb8;">$34</div>
+          </div>
+        </div>
+      </div>
+      <div class="membrane" style="position:relative;background-image:linear-gradient(rgba(26,28,33,0.5),rgba(26,28,33,0.5)), url('images/gothic-archway.png');background-size:cover;background-position:center;border:1px solid var(--metal-line);box-shadow:0 16px 34px rgba(0,0,0,0.5);">
+        <div class="vein-panel" style="position:relative;background:var(--metal);overflow:hidden;">
+          <div class="hose-edge"></div>
+          <div class="capillary-pump" style="animation-delay:1.6s;"></div>
+          <div style="aspect-ratio:1/1;position:relative;display:flex;align-items:center;justify-content:center;background:var(--bg-deep);overflow:hidden;">
+            <svg viewBox="0 0 100 100" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;opacity:.16;mix-blend-mode:screen;">
+              <path d="M50 6c-19 0-32 14-32 32 0 10 4 17 9 23v14c0 3 2 5 5 5h6v8c0 2 2 4 4 4h16c2 0 4-2 4-4v-8h6c3 0 5-2 5-5v-14c5-6 9-13 9-23 0-18-13-32-32-32z" fill="var(--bio)"></path>
+              <circle cx="38" cy="42" r="7" fill="var(--bg-deep)"></circle>
+              <circle cx="62" cy="42" r="7" fill="var(--bg-deep)"></circle>
+              <path d="M46 54 L54 54 L50 62 Z" fill="var(--bg-deep)"></path>
+              <path d="M40 70 h20 M42 76 h16" stroke="var(--bg-deep)" stroke-width="3" stroke-linecap="round"></path>
+            </svg>
+            <span class="orbi" style="position:relative;z-index:1;font-size:22px;letter-spacing:1px;color:var(--bone-dim);text-align:center;padding:0 20px 0 34px;">VOTE FOR<br>OBLIVION</span>
+          </div>
+          <div style="padding:22px 22px 22px 46px;">
+            <div style="font-size:16px;color:var(--bone);margin-bottom:6px;">Tour T-Shirt</div>
+            <div class="rajd" style="font-size:14px;font-weight:600;color:#7cffb8;">$28</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div id="contact" class="scanlines" style="position:relative;overflow:hidden;padding:130px 56px 130px calc(var(--rail) + 56px);text-align:center;border-top:1px solid var(--metal-line);box-shadow:0 -18px 30px -20px rgba(0,0,0,0.7);">
+    <img class="living-img-alt" src="images/gothic-archway.png" alt="An original biomechanical gothic archway of fused ribs and chrome spires, converging on a glowing green vent at its apex, over a ruined skyline" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;">
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg, rgba(3,3,4,0.45) 0%, rgba(3,3,4,0.72) 55%, rgba(3,3,4,0.94) 100%);"></div>
+    <div style="position:relative;z-index:3;">
+      <div class="kicker" style="margin-bottom:16px;">Stay Connected To The Host</div>
+      <h2 class="orbi" style="margin:0 0 18px 0;font-size:34px;letter-spacing:1px;color:var(--bone);">Join The Containment List</h2>
+      <p style="font-size:15px;color:var(--bone-dim);margin:0 0 34px 0;">Tour coordinates, signal updates, and things best not explained &mdash; straight to your inbox.</p>
+      <form style="display:flex;gap:12px;justify-content:center;max-width:480px;margin:0 auto;flex-wrap:wrap;" onsubmit="event.preventDefault();">
+        <label for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);">Email address</label>
+        <input id="email" class="field" type="email" placeholder="you@bunker.net" style="flex:1 1 240px;" required>
+        <button type="submit" class="btn btn-solid">Subscribe</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="padding:70px 56px 40px calc(var(--rail) + 56px);background:rgba(3,3,4,0.95);border-top:1px solid var(--metal-line);box-shadow:0 -1px 0 rgba(124,255,184,0.06);">
+    <div style="display:flex;justify-content:space-between;gap:50px;flex-wrap:wrap;margin-bottom:50px;">
+      <div style="max-width:340px;">
+        <div class="orbi" style="font-size:20px;letter-spacing:2px;color:var(--bone);margin-bottom:14px;">NUKIE CARPATHIO</div>
+        <p style="font-size:14px;line-height:1.7;color:var(--bone-dim);">Apocalyptic Americana. A signal that will not stay buried. Paid for by the Committee to Re-Irradiate America.</p>
+      </div>
+      <div style="display:flex;gap:70px;flex-wrap:wrap;">
+        <div>
+          <div class="rajd" style="font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--bone);margin-bottom:16px;">Explore</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a class="navlink" href="#music" style="border:none;">Music</a>
+            <a class="navlink" href="#about" style="border:none;">About</a>
+            <a class="navlink" href="#tour" style="border:none;">Tour</a>
+            <a class="navlink" href="#merch" style="border:none;">Merch</a>
+          </div>
+        </div>
+        <div>
+          <div class="rajd" style="font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--bone);margin-bottom:16px;">Follow</div>
+          <div style="display:flex;gap:10px;">
+            <a href="#" aria-label="Nukie Carpathio on Instagram" style="width:38px;height:38px;border-radius:50%;border:1px solid var(--metal-line);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;color:var(--bone-dim);">IG</a>
+            <a href="#" aria-label="Nukie Carpathio on X" style="width:38px;height:38px;border-radius:50%;border:1px solid var(--metal-line);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;color:var(--bone-dim);">X</a>
+            <a href="#" aria-label="Nukie Carpathio on YouTube" style="width:38px;height:38px;border-radius:50%;border:1px solid var(--metal-line);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:700;color:var(--bone-dim);">YT</a>
+            <a href="#" aria-label="Nukie Carpathio on Spotify" style="width:38px;height:38px;border-radius:50%;border:1px solid var(--metal-line);display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:10px;font-weight:700;color:var(--bone-dim);">SPT</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rajd" style="font-size:12px;letter-spacing:1px;color:var(--bone-dim);border-top:1px solid var(--metal-line);padding-top:24px;">&gt; SYSTEM LOG: <span id="systemLogMsg" style="transition:opacity .35s ease;">Nothing here was meant to keep living.</span><span class="cursor">_</span></div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var ACCENT = '#7cffb8';
+
+  var rawTracks = [
+    { num: '01', title: 'Duck & Cover', duration: '3:12' },
+    { num: '02', title: 'Bomb Shelter Boogie', duration: '2:58' },
+    { num: '03', title: 'Ghost Of Uncle Sam', duration: '4:05' },
+    { num: '04', title: 'Radiation Romance', duration: '3:33' },
+    { num: '05', title: 'Last Dance In D.C.', duration: '3:47' },
+    { num: '06', title: 'Campaign Promises (Reprise)', duration: '2:41' },
+    { num: '07', title: 'Fallout Waltz', duration: '4:22' },
+    { num: '08', title: 'Sirens In 4/4', duration: '3:05' },
+    { num: '09', title: 'Bury The Lede', duration: '3:58' },
+    { num: '10', title: 'Vote For Oblivion', duration: '3:19' },
+    { num: '11', title: 'Something Kept Living (Outro)', duration: '5:07' }
+  ];
+  var tourDates = [
+    { day: '14', month: 'Mar', venue: 'The Fallout Lounge', city: 'Reno, NV' },
+    { day: '22', month: 'Mar', venue: 'Bunker 9', city: 'Roswell, NM' },
+    { day: '03', month: 'Apr', venue: 'Ashfall Ballroom', city: 'Amarillo, TX' },
+    { day: '19', month: 'Apr', venue: 'The Iron Curtain', city: 'Detroit, MI' },
+    { day: '08', month: 'May', venue: 'Capitol Ruins Amphitheater', city: 'Washington, D.C.' }
+  ];
+
+  var playingIndex = -1;
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function renderTracks() {
+    var el = document.getElementById('trackList');
+    el.innerHTML = rawTracks.map(function (t, i) {
+      var playing = i === playingIndex;
+      var iconHtml = playing
+        ? '<span class="node-ring" style="border-color:' + ACCENT + ';"></span>&#10074;&#10074;'
+        : '&#9658;';
+      return '<div class="track-row" style="display:flex;align-items:center;gap:20px;padding:16px 8px;border-bottom:1px solid var(--metal-line);">' +
+        '<button data-index="' + i + '" aria-label="Play ' + esc(t.title) + '" class="iris-btn track-play" style="position:relative;flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:1px solid ' + ACCENT + ';color:' + ACCENT + ';font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;">' + iconHtml + '</button>' +
+        '<span class="rajd" style="width:28px;color:var(--bone-dim);font-size:14px;">' + t.num + '</span>' +
+        '<span style="flex:1 1 0;font-size:16px;color:var(--bone);">' + esc(t.title) + '</span>' +
+        '<span class="rajd" style="color:var(--bone-dim);font-size:13px;">' + t.duration + '</span>' +
+      '</div>';
+    }).join('');
+    Array.prototype.forEach.call(el.querySelectorAll('.track-play'), function (btn) {
+      btn.addEventListener('click', function () {
+        var i = parseInt(btn.getAttribute('data-index'), 10);
+        playingIndex = playingIndex === i ? -1 : i;
+        renderTracks();
+        updateScrub();
+      });
+    });
+  }
+
+  function updateScrub() {
+    var playing = document.getElementById('scrubPlaying');
+    var idle = document.getElementById('scrubIdle');
+    var anyPlaying = playingIndex !== -1;
+    playing.style.display = anyPlaying ? 'block' : 'none';
+    idle.style.display = anyPlaying ? 'none' : 'block';
+  }
+
+  function renderTour() {
+    var el = document.getElementById('tourList');
+    el.innerHTML = tourDates.map(function (stop) {
+      return '<div style="display:flex;align-items:center;gap:28px;padding:24px 12px;border-bottom:1px solid var(--metal-line);">' +
+        '<div style="flex:0 0 110px;">' +
+          '<div class="orbi" style="font-size:22px;color:' + ACCENT + ';line-height:1;">' + stop.day + '</div>' +
+          '<div class="rajd" style="font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--bone-dim);">' + stop.month + '</div>' +
+        '</div>' +
+        '<div style="flex:1 1 0;min-width:0;">' +
+          '<div style="font-size:18px;color:var(--bone);">' + esc(stop.venue) + '</div>' +
+          '<div class="rajd" style="font-size:13px;font-weight:600;letter-spacing:1px;color:var(--bone-dim);">' + esc(stop.city) + '</div>' +
+        '</div>' +
+        '<a href="#" class="btn btn-solid" style="padding:12px 26px;font-size:12px;">Tickets</a>' +
+      '</div>';
+    }).join('');
+  }
+
+  window.showTab = function (tab) {
+    ['tracklist', 'lyrics', 'credits'].forEach(function (t) {
+      document.getElementById('panel-' + t).classList.toggle('active', t === tab);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.navtab'), function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-tab') === tab);
+    });
+  };
+
+  // --- Cursor-reactive glow over the hero organism image ---
+  function startHeroGlow() {
+    var heroEl = document.getElementById('top');
+    var glowEl = document.getElementById('heroGlow');
+    if (!heroEl || !glowEl) return;
+    heroEl.addEventListener('mousemove', function (e) {
+      var rect = heroEl.getBoundingClientRect();
+      var x = ((e.clientX - rect.left) / rect.width) * 100;
+      var y = ((e.clientY - rect.top) / rect.height) * 100;
+      glowEl.style.background = 'radial-gradient(ellipse 520px 420px at ' + x + '% ' + y + '%, rgba(124,255,184,0.17), rgba(124,255,184,0) 60%)';
+    });
+    heroEl.addEventListener('mouseleave', function () {
+      glowEl.style.background = 'radial-gradient(ellipse 700px 500px at 20% 85%, rgba(124,255,184,0.10), rgba(124,255,184,0) 60%)';
+    });
+  }
+
+  // --- Occasional word-corruption glitch in the top threat marquee ---
+  function scheduleGlitch(el) {
+    var words = ['STAGE', 'SIGNAL', 'PERIMETER', 'CONTAINMENT', 'VITALS'];
+    var corrupt = ['█HOST█', 'ST▓GE', 'S1GNAL', 'P3R1METER', 'C0NTA1NMENT', 'V1T▲LS'];
+    var delay = 6000 + Math.random() * 9000;
+    setTimeout(function () {
+      if (!el.isConnected) return;
+      if (!el.dataset.original) el.dataset.original = el.textContent;
+      var original = el.dataset.original;
+      var idx = Math.floor(Math.random() * words.length);
+      var text = original;
+      if (text.indexOf(words[idx]) !== -1) {
+        text = text.split(words[idx]).join(corrupt[idx] || corrupt[0]);
+      }
+      el.textContent = text;
+      el.classList.add('marquee-glitch');
+      setTimeout(function () {
+        el.textContent = original;
+        el.classList.remove('marquee-glitch');
+        scheduleGlitch(el);
+      }, 220 + Math.random() * 260);
+    }, delay);
+  }
+  function startMarqueeGlitch() {
+    Array.prototype.forEach.call(document.querySelectorAll('.marquee-item-threat'), scheduleGlitch);
+  }
+
+  // --- Rotating SYSTEM LOG line in the footer ---
+  function startSystemLog() {
+    var logs = [
+      'Nothing here was meant to keep living.',
+      'Containment breach, Sector 9, 04:12.',
+      'Specimen NK-77 requested an encore.',
+      'Signal will not stay buried.'
+    ];
+    var el = document.getElementById('systemLogMsg');
+    if (!el) return;
+    var i = 0;
+    setInterval(function () {
+      i = (i + 1) % logs.length;
+      el.style.opacity = '0';
+      setTimeout(function () {
+        el.textContent = logs[i];
+        el.style.opacity = '1';
+      }, 350);
+    }, 6500);
+  }
+
+  // --- Threat level escalates, once, when the About dossier scrolls into view ---
+  function startThreatObserver() {
+    var aboutEl = document.getElementById('about');
+    var valueEl = document.getElementById('threatLevelValue');
+    if (!aboutEl || !valueEl || typeof IntersectionObserver === 'undefined') return;
+    var triggered = false;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !triggered) {
+          triggered = true;
+          valueEl.textContent = 'Critical';
+          valueEl.classList.add('threat-critical');
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.4 });
+    observer.observe(aboutEl);
+  }
+
+  // --- Optional ambient audio: tape hiss + a slow heartbeat, synthesized (no external audio file) ---
+  var audioCtx = null, masterGain = null, noiseNode = null, droneNode = null;
+  var heartbeatActive = false, heartbeatTimeout = null, audioOn = false;
+
+  function setAudioUI(on) {
+    var btn = document.getElementById('audioToggleBtn');
+    var iconOn = document.getElementById('audioIconOn');
+    var iconOff = document.getElementById('audioIconOff');
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    var label = on ? 'Mute ambient signal' : 'Play ambient signal';
+    btn.setAttribute('aria-label', label);
+    btn.setAttribute('title', label);
+    iconOn.classList.toggle('active', on);
+    iconOff.classList.toggle('active', !on);
+  }
+
+  function startAudio() {
+    try {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return;
+      if (!audioCtx) audioCtx = new Ctx();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
+      masterGain = audioCtx.createGain();
+      masterGain.gain.value = 0;
+      masterGain.connect(audioCtx.destination);
+      masterGain.gain.linearRampToValueAtTime(0.35, audioCtx.currentTime + 1.2);
+
+      var bufferSize = audioCtx.sampleRate * 2;
+      var noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      var data = noiseBuffer.getChannelData(0);
+      for (var i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.6;
+      noiseNode = audioCtx.createBufferSource();
+      noiseNode.buffer = noiseBuffer;
+      noiseNode.loop = true;
+      var hissFilter = audioCtx.createBiquadFilter();
+      hissFilter.type = 'highpass';
+      hissFilter.frequency.value = 2000;
+      var hissGain = audioCtx.createGain();
+      hissGain.gain.value = 0.05;
+      noiseNode.connect(hissFilter).connect(hissGain).connect(masterGain);
+      noiseNode.start();
+
+      droneNode = audioCtx.createOscillator();
+      droneNode.type = 'sine';
+      droneNode.frequency.value = 42;
+      var droneGain = audioCtx.createGain();
+      droneGain.gain.value = 0.12;
+      droneNode.connect(droneGain).connect(masterGain);
+      droneNode.start();
+
+      heartbeatActive = true;
+      var beat = function () {
+        if (!heartbeatActive || !audioCtx) return;
+        var now = audioCtx.currentTime;
+        [0, 0.18].forEach(function (offset, idx) {
+          var osc = audioCtx.createOscillator();
+          osc.type = 'sine';
+          osc.frequency.value = 55;
+          var g = audioCtx.createGain();
+          g.gain.setValueAtTime(0, now + offset);
+          g.gain.linearRampToValueAtTime(idx === 0 ? 0.5 : 0.32, now + offset + 0.03);
+          g.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.22);
+          osc.connect(g).connect(masterGain);
+          osc.start(now + offset);
+          osc.stop(now + offset + 0.25);
+        });
+        heartbeatTimeout = setTimeout(beat, 1050 + Math.random() * 150);
+      };
+      beat();
+    } catch (err) {
+      console.warn('Ambient audio unavailable:', err);
+    }
+  }
+
+  function stopAudio() {
+    heartbeatActive = false;
+    if (heartbeatTimeout) clearTimeout(heartbeatTimeout);
+    if (masterGain && audioCtx) {
+      masterGain.gain.cancelScheduledValues(audioCtx.currentTime);
+      masterGain.gain.setValueAtTime(masterGain.gain.value, audioCtx.currentTime);
+      masterGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.6);
+    }
+    var n = noiseNode, d = droneNode;
+    setTimeout(function () {
+      try { if (n) n.stop(); } catch (e) {}
+      try { if (d) d.stop(); } catch (e) {}
+    }, 650);
+    noiseNode = null;
+    droneNode = null;
+  }
+
+  document.getElementById('audioToggleBtn').addEventListener('click', function () {
+    audioOn = !audioOn;
+    if (audioOn) startAudio(); else stopAudio();
+    setAudioUI(audioOn);
+  });
+
+  // Easter egg for anyone who opens devtools or views source.
+  try {
+    console.log('%c⚠ CONTAINMENT LOG', 'color:#7cffb8;font-family:monospace;font-size:14px;font-weight:bold;');
+    console.log('%cSpecimen NK-77 vitals rising. Signal will not stay buried.\nYou were not supposed to look here.', 'color:#948e7d;font-family:monospace;font-size:12px;');
+  } catch (e) {}
+
+  renderTracks();
+  updateScrub();
+  renderTour();
+  startHeroGlow();
+  startMarqueeGlitch();
+  startSystemLog();
+  startThreatObserver();
+})();
+</script>
+</body>
+</html>
